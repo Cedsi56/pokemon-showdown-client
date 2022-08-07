@@ -27,6 +27,9 @@
 				if (this.curTeam.format.includes('bdsp')) {
 					this.curTeam.dex = Dex.mod('gen8bdsp');
 				}
+        if (this.curTeam.format.includes('pigyournament')) {
+					this.curTeam.dex = Dex.mod('gen2pigyournament');
+				}
 				Storage.activeSetList = this.curSetList;
 			}
 		},

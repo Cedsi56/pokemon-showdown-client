@@ -9,7 +9,7 @@ const rootDir = path.resolve(__dirname, '..');
 process.chdir(rootDir);
 
 if (!fs.existsSync('data/pokemon-showdown')) {
-	child_process.execSync('git clone https://github.com/smogon/pokemon-showdown.git', {
+	child_process.execSync('git clone https://github.com/Cedsi56/pokemon-showdown-server.git', {
 		cwd: 'data',
 	});
 }
@@ -321,7 +321,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	const VGC = GENS.filter(x => x > 3).map(num => -num - 0.5);
 	const NFE = GENS.map(num => num + 0.3);
 	const STADIUM = [2.04, 1.04];
-	const OTHER = [8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.1];
+	const OTHER = [8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.1, 2.53];
 
 	// process.stdout.write("\n  ");
 	for (const genIdent of [...GENS, ...DOUBLES, ...VGC, ...NFE, ...STADIUM, ...OTHER]) {
@@ -334,6 +334,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const isStadium = ('' + genIdent).endsWith('.04');
 		const isDoubles = (genIdent < 0);
 		const isVGC = ('' + genIdent).endsWith('.5');
+		const isCC = ('' + genIdent).endsWith('.53');
 		const genNum = Math.floor(isDoubles ? -genIdent : genIdent);
 		const gen = (() => {
 			let genStr = 'gen' + genNum;
@@ -341,6 +342,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (isLetsGo) genStr += 'letsgo';
 			if (isBDSP) genStr += 'bdsp';
 			if (isStadium) genStr += 'stadium' + (genNum > 1 ? genNum : '');
+			if (isCC) genStr = 'gen2pigyournament'
+			console.log(genStr)
 			return genStr;
 		})();
 		// process.stdout.write("" + gen + (isDoubles ? " doubles" : "") + "... ");
@@ -510,6 +513,12 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			BattleTeambuilderTable['gen7letsgo'].tiers = tiers;
 			BattleTeambuilderTable['gen7letsgo'].overrideTier = overrideTier;
 			BattleTeambuilderTable['gen7letsgo'].formatSlices = formatSlices;
+		} else if (isCC) {
+			BattleTeambuilderTable['gen2pigyournament'] = {};
+			BattleTeambuilderTable['gen2pigyournament'].learnsets = {};
+			BattleTeambuilderTable['gen2pigyournament'].tiers = tiers;
+			BattleTeambuilderTable['gen2pigyournament'].overrideTier = overrideTier;
+			BattleTeambuilderTable['gen2pigyournament'].formatSlices = formatSlices;
 		} else if (isBDSP && !isDoubles) {
 			BattleTeambuilderTable['gen8bdsp'] = {};
 			BattleTeambuilderTable['gen8bdsp'].learnsets = {};
@@ -559,6 +568,9 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			}
 			if (gen === 'gen4') {
 				return ["CAP", "CAP NFE", "CAP LC", "AG", "Uber", "OU", "(OU)", "UUBL", "UU", "NUBL", "NU", "NFE", "LC"];
+			}
+			if (isCC) {
+				return ["Uber", "OU", "UUBL", "UU", "NUBL", "NU", "NFE", "LC"];
 			}
 			return ["CAP", "CAP NFE", "CAP LC", "AG", "Uber", "(Uber)", "OU", "(OU)", "UUBL", "UU", "RUBL", "RU", "NUBL", "NU", "PUBL", "PU", "(PU)", "New", "NFE", "LC", "Unreleased"];
 		})();
@@ -877,6 +889,18 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (minGen === 1) learnsets[id][moveid] = '12' + learnsets[id][moveid];
 		}
 	}
+	const CCLearnsets = Dex.mod('gen2pigyournament').data.Learnsets;
+	for (const id in CCLearnsets) {
+		const species = Dex.mod('gen2pigyournament').species.get(id);
+		const baseSpecies = Dex.mod('gen2pigyournament').species.get(species.baseSpecies);
+		const validNum = (baseSpecies.num <= 251 && baseSpecies.num >= 1);
+		if (!validNum) continue;
+		const learnset = CCLearnsets[id].learnset;
+		BattleTeambuilderTable['gen2pigyournament'].learnsets[id] = {};
+		for (const moveid in learnset) {
+			BattleTeambuilderTable['gen2pigyournament'].learnsets[id][moveid] = '2';
+		}
+	}
 	const LGLearnsets = Dex.mod('gen7letsgo').data.Learnsets;
 	for (const id in LGLearnsets) {
 		const species = Dex.mod('gen7letsgo').species.get(id);
@@ -1030,7 +1054,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	// Mods
 	//
 
-	for (const mod of ['gen7letsgo', 'gen8bdsp']) {
+	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen2pigyournament']) {
 		const modDex = Dex.mod(mod);
 		const modData = modDex.data;
 		const parentDex = Dex.forGen(modDex.gen);

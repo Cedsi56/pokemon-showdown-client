@@ -1,0 +1,41 @@
+Starting up http-server, serving ./
+
+http-server version: 14.1.1
+
+http-server settings: 
+CORS: true
+Cache: 3600 seconds
+Connection Timeout: 120 seconds
+Directory Listings: visible
+AutoIndex: visible
+Serve GZIP Files: false
+Serve Brotli Files: false
+Default File Extension: none
+
+Available on:
+  http://127.0.0.1:8080
+  http://141.95.193.163:8080
+Hit CTRL-C to stop the server
+
+[2022-08-07T20:04:25.102Z]  "GET /testclient.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0"
+(node:21043) [DEP0066] DeprecationWarning: OutgoingMessage.prototype._headers is deprecated
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[2022-08-07T20:04:25.186Z]  "GET /data/pokedex-mini.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0"
+[2022-08-07T20:04:25.190Z]  "GET /data/pokedex-mini.js" Error (404): "Not found"
+[2022-08-07T20:04:25.224Z]  "GET /data/pokedex-mini-bw.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0"
+[2022-08-07T20:04:25.225Z]  "GET /data/pokedex-mini-bw.js" Error (404): "Not found"
+[2022-08-07T20:04:25.282Z]  "GET /fx/client-bg-charizards.jpg" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0"
+[2022-08-07T20:04:25.300Z]  "GET /data/pokedex-mini.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0"
+[2022-08-07T20:04:25.301Z]  "GET /data/pokedex-mini.js" Error (404): "Not found"
+[2022-08-07T20:04:25.328Z]  "GET /data/pokedex-mini-bw.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0"
+[2022-08-07T20:04:25.329Z]  "GET /data/pokedex-mini-bw.js" Error (404): "Not found"
+[2022-08-07T20:05:57.714Z]  "GET /testclient.html" "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)"
+[2022-08-07T20:16:59.039Z]  "GET /data/pokedex-mini-bw.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0"
+[2022-08-07T20:16:59.042Z]  "GET /data/pokedex-mini.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0"
+[2022-08-07T20:16:59.043Z]  "GET /data/pokedex-mini-bw.js" Error (404): "Not found"
+[2022-08-07T20:16:59.044Z]  "GET /data/pokedex-mini.js" Error (404): "Not found"
+[2022-08-07T20:16:59.099Z]  "GET /data/pokedex-mini.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0"
+[2022-08-07T20:16:59.101Z]  "GET /data/pokedex-mini.js" Error (404): "Not found"
+[2022-08-07T20:16:59.124Z]  "GET /data/pokedex-mini-bw.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0"
+[2022-08-07T20:16:59.126Z]  "GET /data/pokedex-mini-bw.js" Error (404): "Not found"
+[2022-08-07T20:16:59.274Z]  "GET /favicon.ico" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0"

@@ -65,7 +65,6 @@ if (autoconfigRegex.test(configBuf)) {
 } else {
 	configBuf += autoconfig;
 }
-fs.writeFileSync('config/config.js', configBuf);
 console.log("DONE");
 
 /*********************************************************

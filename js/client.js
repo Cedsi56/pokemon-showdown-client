@@ -754,6 +754,8 @@ function toId() {
 							'ws' + protocol.slice('4') + '://' + Config.server.host + ':' + Config.server.port + Config.sockjsprefix + '/websocket'
 						);
 					}
+           console.trace();
+           console.log(protocol + '://' + Config.server.host + ':' + Config.server.port + Config.sockjsprefix);
 					return new SockJS(
 						protocol + '://' + Config.server.host + ':' + Config.server.port + Config.sockjsprefix,
 						[], {timeout: 5 * 60 * 1000}
@@ -762,11 +764,14 @@ function toId() {
 					// The most common case this happens is if an HTTPS connection fails,
 					// and we fall back to HTTP, which throws a SecurityError if the URL
 					// is HTTPS
+          console.log(err);
 					self.trigger('init:connectionerror');
 					return null;
 				}
 			};
 			this.socket = constructSocket();
+      
+      console.log(this.socket);
 
 			var socketopened = false;
 			var altport = (Config.server.port === Config.server.altport);
@@ -2862,10 +2867,9 @@ function toId() {
 			this.callback = data.callback;
 
 			var buf = '<form>';
-			buf += '<p>Because of <a href="https://en.wikipedia.org/wiki/Same-origin_policy" target="_blank">your browser\'s security restrictions</a> for <code>testclient.html</code>, we need to do this manually:</p>';
+			buf += 'We are going to login from your local storage.';
 			buf += '<iframe id="overlay_iframe" src="' + data.uri + '" style="width: 100%; height: 50px;" class="textbox"></iframe>';
 			buf += '<p>Please copy <strong>all the text</strong> from the box above and paste it in the box below.</p>';
-			buf += '<p>(You should probably <a href="https://github.com/smogon/pokemon-showdown-client#test-keys" target="_blank">set up</a> <code>config/testclient-key.js</code> so you don\'t have to do this every time.)</p>';
 			buf += '<p><label class="label" style="float: left;">Data from the box above:</label> <input style="width: 100%;" class="textbox autofocus" type="text" name="result" /></p>';
 			buf += '<p class="buttonbar"><button type="submit"><strong>Submit</strong></button> <button type="button" name="close">Cancel</button></p>';
 			buf += '</form>';
@@ -2873,6 +2877,7 @@ function toId() {
 		},
 		submit: function (data) {
 			this.close();
+      console.log(data);
 			this.callback(data.result);
 		}
 	});
