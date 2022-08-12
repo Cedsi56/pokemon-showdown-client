@@ -754,24 +754,21 @@ function toId() {
 							'ws' + protocol.slice('4') + '://' + Config.server.host + ':' + Config.server.port + Config.sockjsprefix + '/websocket'
 						);
 					}
-           console.trace();
-           console.log(protocol + '://' + Config.server.host + ':' + Config.server.port + Config.sockjsprefix);
+					const url = protocol + '://' + Config.server.host + ':' + Config.server.port + Config.sockjsprefix;
 					return new SockJS(
-						protocol + '://' + Config.server.host + ':' + Config.server.port + Config.sockjsprefix,
+						url,
 						[], {timeout: 5 * 60 * 1000}
 					);
 				} catch (err) {
 					// The most common case this happens is if an HTTPS connection fails,
 					// and we fall back to HTTP, which throws a SecurityError if the URL
 					// is HTTPS
-          console.log(err);
+          			console.log(err);
 					self.trigger('init:connectionerror');
 					return null;
 				}
 			};
 			this.socket = constructSocket();
-      
-      console.log(this.socket);
 
 			var socketopened = false;
 			var altport = (Config.server.port === Config.server.altport);
@@ -2866,18 +2863,23 @@ function toId() {
 		initialize: function (data) {
 			this.callback = data.callback;
 
-			var buf = '<form>';
-			buf += 'We are going to login from your local storage.';
+			var buf = '<form id="fuckedUpForm">';
+			buf += 'This is your account validation token.';
 			buf += '<iframe id="overlay_iframe" src="' + data.uri + '" style="width: 100%; height: 50px;" class="textbox"></iframe>';
+			buf += '<p>If all you see is "]{"loggedin":false"} or ";", you will need to connect normally (With Choose name in the top right corner).</p>';
 			buf += '<p>Please copy <strong>all the text</strong> from the box above and paste it in the box below.</p>';
 			buf += '<p><label class="label" style="float: left;">Data from the box above:</label> <input style="width: 100%;" class="textbox autofocus" type="text" name="result" /></p>';
-			buf += '<p class="buttonbar"><button type="submit"><strong>Submit</strong></button> <button type="button" name="close">Cancel</button></p>';
+			buf += '<p class="buttonbar"><button type="submit"><strong>Submit</strong></button></p>';
 			buf += '</form>';
 			this.$el.html(buf).css('min-width', 500);
 		},
 		submit: function (data) {
+			if (data.result.includes("loggedin\":false}")) {
+				data.result = data.result.replace("loggedin\":false}", "loggedin\":true}")
+			} else if (data.result.length == 0){
+				data.result = "]{\"loggedin\":true}"
+			}
 			this.close();
-      console.log(data);
 			this.callback(data.result);
 		}
 	});

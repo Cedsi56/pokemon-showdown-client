@@ -548,12 +548,14 @@ Storage.initTestClient = function () {
 				data.sid = sid;
 				post(uri, data, callback, type);
 			} else {
-				var src = '<!DOCTYPE html><html><body><form action="' + BattleLog.escapeHTML(uri) + '" method="POST">';
+				var src = '<!DOCTYPE html><html><body><form id="userTokenFromStorage" action="' + BattleLog.escapeHTML(uri) + '" method="POST" onsubmit="console.warn()">';
 				src += '<input type="hidden" name="testclient">';
 				for (var i in data) {
 					src += '<input type=hidden name="' + i + '" value="' + BattleLog.escapeHTML(data[i]) + '">';
 				}
-				src += '<input type=submit value="Please click this button first."></form></body></html>';
+				let script = "<script>document.forms['userTokenFromStorage'].submit();"
+				script += "</script>"
+				src += '</form>' + script + '</body></html>';
 				app.addPopup(ProxyPopup, {uri: "data:text/html;charset=UTF-8," + encodeURIComponent(src), callback: callback});
 			}
 		};

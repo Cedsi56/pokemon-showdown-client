@@ -82,7 +82,7 @@ function updateLearnsets(callback) {
 
 let indexStats, updateStats, indexMTime, updateMTime;
 try {
-	indexStats = fs.statSync(path.join(rootDir, 'index.html'));
+	indexStats = fs.statSync(path.join(rootDir, 'index_old.html'));
 	indexMTime = indexStats.mtime.getTime();
 } catch (err) {
 	if (err.code !== 'ENOENT') throw err;
